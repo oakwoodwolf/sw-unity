@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6237199809683621677
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6237199809683621679}
+  - component: {fileID: 6237199809683621676}
+  - component: {fileID: 6237199809683621678}
+  - component: {fileID: 5175486836582584176}
+  m_Layer: 0
+  m_Name: Stage Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6237199809683621679
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6237199809683621677}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6237199809683621676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6237199809683621677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d4f3843bc5a7384f9eec2b3a432167b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeAnim: {fileID: 0}
+  RespawnDelay: 2
+  GameOverScene: GameOverScene
+  MusicSource: {fileID: 0}
+  StageMusic: {fileID: 8300000, guid: af83477808beba141a9dfbf8ed7ea478, type: 3}
+  StageClear: {fileID: 8300000, guid: 572bf000660b2c34ab3c184086dcd149, type: 3}
+  InvincibleTheme: {fileID: 8300000, guid: 99c9d92f623e01c41b5d3f603cd796c3, type: 3}
+--- !u!114 &6237199809683621678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6237199809683621677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38aa1af012576f04b85aa0a1b67af8d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RotationSpeed: 150
+--- !u!114 &5175486836582584176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6237199809683621677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee211cb4af46fb04ba850186113d8a0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseGamepad: 1
+  buttonInputs:
+  - Name: Jump
+    KeyboardInput: space
+    GamepadInput: joystick button 0
+  - Name: Crouch
+    KeyboardInput: left shift
+    GamepadInput: joystick button 1
+  axisInputs:
+  - Name: Horizontal
+    Positive: d
+    Negative: a
+    GamepadAxis: joystick axis 0
+    Value: 0
+    TargetValue: 0
+    Damping: 0.05
+  - Name: Vertical
+    Positive: w
+    Negative: s
+    GamepadAxis: joystick axis 1
+    Value: 0
+    TargetValue: 0
+    Damping: 0.05
