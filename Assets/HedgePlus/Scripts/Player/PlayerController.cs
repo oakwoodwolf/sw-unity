@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
             }
             if (rigidBody.velocity.magnitude > GroundStickSpeed)
             {
-                HighSpeedFix(Time.fixedDeltaTime);
+                SlopePrediction(Time.fixedDeltaTime);
             }
             SlopePhysics();
 
@@ -278,6 +278,42 @@ public class PlayerController : MonoBehaviour
         {
             GroundNormal = PredictedNormal;
             rigidBody.position = Vector3.MoveTowards(rigidBody.position, PredictedPosition, dt);
+        }
+    }
+
+    /// <summary>
+    /// By Greedy
+    /// 
+    /// This Function is made so that the character doesnt get clipped inside geometry giving him an extra layer of prediction and avoiding weird speed jumps due to colision solving
+    /// </summary>
+    void SlopePrediction(float dt)
+    {
+        float LowerValue = 0.43f;
+        Vector3 PredictedPosition = rigidBody.position + (-GroundNormal * LowerValue); //reducing Height to get closer to the ground
+        Vector3 PredictedNormal = GroundNormal;
+        Vector3 PredictedVelocity = rigidBody.velocity;
+        float SpeedFrame = rigidBody.velocity.magnitude * dt; //actually a good idea to cache this call at the start of fixed update so you dont have to do calc everytime (the velocity.mag)
+        float LerpJump = 0.015f;
+
+        Debug.DrawRay(PredictedPosition, PredictedVelocity.normalized * SpeedFrame * 1.3f, Color.red, 5, true);
+        if (!Physics.Raycast(PredictedPosition, PredictedVelocity.normalized, out RaycastHit pGround, SpeedFrame * 1.3f, GroundLayer)) { HighSpeedFix(dt); return; } //if detects no slopes in the way go to Downforce check
+
+        for (float lerp = LerpJump; lerp < MaxAngleDifference / 90; lerp += LerpJump) //increases lerp up until it breaks the angle limit
+        {
+            Debug.DrawRay(PredictedPosition, Vector3.Lerp(PredictedVelocity.normalized, GroundNormal, lerp) * SpeedFrame * 1.3f, Color.blue, 5, false);
+            if (!Physics.Raycast(PredictedPosition, Vector3.Lerp(PredictedVelocity.normalized, GroundNormal, lerp), out pGround, SpeedFrame * 1.3f, GroundLayer)) //Go until Find a suitable position above Ground
+            {
+                lerp += LerpJump; //add an extra one for extra hoverness
+                Debug.DrawRay(PredictedPosition + (Vector3.Lerp(PredictedVelocity.normalized, GroundNormal, lerp) * SpeedFrame * 1.3f) + (Vector3.right * 0.05f), -PredictedNormal, Color.yellow, 5, false);
+                Physics.Raycast(PredictedPosition + (Vector3.Lerp(PredictedVelocity.normalized, GroundNormal, lerp) * SpeedFrame * 1.3f), -PredictedNormal, out pGround, GroundCheckDistance + SpeedFixOvershoot, GroundLayer); // hit the ground on the valid Position
+
+                PredictedPosition = (PredictedPosition + Vector3.Lerp(PredictedVelocity.normalized, GroundNormal, lerp) * SpeedFrame) + (pGround.normal * LowerValue);
+                PredictedVelocity = Quaternion.FromToRotation(GroundNormal, pGround.normal) * PredictedVelocity;
+                GroundNormal = pGround.normal;
+                rigidBody.position = Vector3.MoveTowards(rigidBody.position, PredictedPosition, dt);
+                rigidBody.velocity = PredictedVelocity;
+                break;
+            }
         }
     }
 
