@@ -119,14 +119,14 @@ Material:
     - _ReflectionStrength: 0
     - _RimPower: 5
     - _ShadingOffset: 0.78
-    - _Smoothness: 0
+    - _Smoothness: 0.387
     - _SmoothnessTextureChannel: 0
     - _SpecularHardness: 1
     - _SpecularHighlights: 1
     - _SpecularIntensity: 0.25
     - _SpecularSize: -0.33
     - _SrcBlend: 1
-    - _SubsurfaceModifier: 0.662
+    - _SubsurfaceModifier: 1
     - _UVSec: 0
     - _UseReflection: 0
     - _ZWrite: 1

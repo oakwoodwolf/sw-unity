@@ -18,7 +18,7 @@ public class ActorInteraction : MonoBehaviour
     PulleyActor currentPulley;
 
     MovingPlatform _platform;
-
+    Vector3 LocalPlatformPosition;
     private void Start()
     {
         anim = GetComponent<PlayerAnimator>();
@@ -46,13 +46,15 @@ public class ActorInteraction : MonoBehaviour
             transform.forward = -currentPulley.transform.forward;
             if (!currentPulley.Moving)
             {
-                actions.ChangeState(0);
+                actions.ChangeState(typeof(DefaultState));
                 Player.InputLocked = false;
                 Player.rigidBody.velocity += currentPulley.transform.up * (currentPulley.Speed * currentPulley.MaxLength);
                 currentPulley = null;
             }
         }
     }
+
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -97,15 +99,16 @@ public class ActorInteraction : MonoBehaviour
                         break;
                 }
                 cap.IsActive = false;
-                if (PlayerActions.currentState is ActionJump)
+                if (PlayerActions.currentState is JumpState)
                 {
                     if (Player.rigidBody.velocity.y < 0)
                         Player.rigidBody.velocity = Vector3.Reflect(Player.rigidBody.velocity, cap.transform.up);
-                } else if (PlayerActions.currentState is ActionHoming)
+                } else if (PlayerActions.currentState is HomingState)
                 {
-                    Player.rigidBody.velocity = Vector3.ProjectOnPlane(Player.rigidBody.velocity, Player.GroundNormal) * actions.homingState.HomingReleaseVelocity;
-                    Player.rigidBody.velocity += transform.up * actions.homingState.HomingBouncePower;
-                    actions.ChangeState(1);
+                    HomingState curState = PlayerActions.currentState as HomingState; //Cast the current state to a HomingState so we can get certain values
+                    Player.rigidBody.velocity = Vector3.ProjectOnPlane(Player.rigidBody.velocity, Player.GroundNormal) * curState.HomingReleaseVelocity;
+                    Player.rigidBody.velocity += transform.up * curState.HomingBouncePower;
+                    actions.ChangeState(typeof(JumpState));
                 }
 
                 actions.UpdateTargets();
@@ -117,12 +120,22 @@ public class ActorInteraction : MonoBehaviour
         {
             SpringActor spring = other.GetComponent<SpringActor>();
             transform.position = spring.transform.position + spring.transform.up * spring.PositionOffset;
-            actions.ChangeState(0);
+            actions.ChangeState(typeof(DefaultState));
             Player.TransformNormal = spring.transform.up;
             Player.rigidBody.velocity = spring.transform.up * spring.SpringForce;
-            actions.defaultState.DidDash = false;
+            actions.DidDash = false;
             if (Player.Crouching) Player.Crouching = false;
             Player.StartCoroutine(Player.LockInput(spring.LockDuration));
+        }
+
+        if (other.TryGetComponent<DashRingActor>(out DashRingActor dashRing))
+        {
+            transform.position = dashRing.transform.position;
+            actions.ChangeState(typeof(DefaultState));
+            anim.animator.SetTrigger("DashRing");
+            Player.rigidBody.velocity = dashRing.transform.forward * dashRing.Force;
+            Player.StartCoroutine(Player.LockInput(dashRing.InputLockDuration));
+            Player.StartCoroutine(Player.LockGravity(dashRing.GravityLockDuration));
         }
 
         if (other.GetComponent<DashPanelActor>())
@@ -141,23 +154,24 @@ public class ActorInteraction : MonoBehaviour
         if (other.gameObject.CompareTag("PulleyHandle"))
         {
             currentPulley = other.gameObject.GetComponentInParent<PulleyActor>();
-            actions.ChangeState(5);
+            //actions.ChangeState(5);
             currentPulley.RetractPulley();
         }
         #endregion
         #region Hazards and Enemies
         if (other.gameObject.CompareTag("Enemy"))
         {
-            if (PlayerActions.currentState is ActionHoming || PlayerActions.currentState is ActionJump)
+            if (PlayerActions.currentState is HomingState || PlayerActions.currentState is JumpState)
             {
                 pool.SpawnFromPool("HitExplosion", other.transform.position, Quaternion.identity);
                 other.gameObject.SetActive(false);
-                if (PlayerActions.currentState is ActionHoming)
+                if (PlayerActions.currentState is HomingState)
                 {
-                    Player.rigidBody.velocity = Vector3.ProjectOnPlane(Player.rigidBody.velocity, Player.GroundNormal) * actions.homingState.HomingReleaseVelocity;
-                    Player.rigidBody.velocity += transform.up * actions.homingState.HomingBouncePower;
-                    actions.ChangeState(1);
-                } else if (PlayerActions.currentState is ActionJump)
+                    HomingState curState = PlayerActions.currentState as HomingState;
+                    Player.rigidBody.velocity = Vector3.ProjectOnPlane(Player.rigidBody.velocity, Player.GroundNormal) * curState.HomingReleaseVelocity;
+                    Player.rigidBody.velocity += transform.up * curState.HomingBouncePower;
+                    actions.ChangeState(typeof(JumpState));
+                } else if (PlayerActions.currentState is JumpState)
                 {
                     if (Player.rigidBody.velocity.y < 0)
                         Player.rigidBody.velocity = Vector3.Reflect(Player.rigidBody.velocity, other.transform.up);
@@ -165,10 +179,11 @@ public class ActorInteraction : MonoBehaviour
 
                 anim.PlayEnemyHit();
                 score.AddScore(EnemyScore);
-            } else if (PlayerActions.currentState is ActionDefault)
+            } else if (PlayerActions.currentState is DefaultState)
             {
+                DefaultState curState = PlayerActions.currentState as DefaultState;
                 ///If we are grounded and rolling or have an invincible shield, destroy the enemy. Otherwise, take damage.
-                if (Player.rigidBody.velocity.magnitude >= actions.defaultState.RollingStartSpeed && Player.Crouching && Player.Grounded ||
+                if (Player.rigidBody.velocity.magnitude >= curState.RollingStartSpeed && Player.Crouching && Player.Grounded ||
                     _health.HasShield && _health.IsInvincible)
                 {
                     pool.SpawnFromPool("HitExplosion", other.transform.position, Quaternion.identity);
@@ -183,7 +198,7 @@ public class ActorInteraction : MonoBehaviour
                         Vector3 Direction = transform.position - other.gameObject.transform.position;
                         Player.Grounded = false;
                         transform.forward = -Vector3.ProjectOnPlane(Direction, Vector3.up).normalized;
-                        actions.ChangeState(3);
+                        actions.ChangeState(typeof(HurtState));
                     }
                 }
             }
@@ -197,7 +212,7 @@ public class ActorInteraction : MonoBehaviour
                 Vector3 Direction = transform.position - other.gameObject.transform.position;
                 Player.Grounded = false;
                 transform.forward = -Vector3.ProjectOnPlane(Direction, Vector3.up).normalized;
-                actions.ChangeState(3);
+                actions.ChangeState(typeof(HurtState));
             }
         }
 
@@ -309,6 +324,9 @@ public class ActorInteraction : MonoBehaviour
     IEnumerator PlatformMovement()
     {
         yield return new WaitForFixedUpdate();
-        Player.rigidBody.position += _platform.platform.velocity * Time.fixedDeltaTime;
+        if (_platform != null)
+        {
+            Player.rigidBody.position += _platform.platform.velocity * Time.fixedDeltaTime;
+        }
     }
 }
