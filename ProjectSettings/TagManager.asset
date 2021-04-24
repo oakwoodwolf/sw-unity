@@ -22,10 +22,10 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - Pinball SDK/Player
-  - Pinball SDK/Object
-  - Pinball SDK/Target
-  - Pinball SDK/Ignore Player Collision
+  - Hedge+/Player
+  - Hedge+/Object
+  - Hedge+/Target
+  - Hedge+/Ignore Player Collision
   - 
   - 
   - 

@@ -32,10 +32,6 @@ public class PauseMenuControl : MonoBehaviour
         }
 
         menuAnimator.SetBool("Paused", Paused);
-
-        //Lock and hide the mouse
-        Cursor.visible = Paused;
-        Cursor.lockState = Paused ? CursorLockMode.None : CursorLockMode.Locked;
     }
 
     public void Unpause()

@@ -61,34 +61,28 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
-    - _CloudCoverage: 0.5
+    - _CloudCoverage: -0.25
     - _CloudDepth: 0.001
-    - _CloudHeight: 0
     - _CloudSoftness: -0.14
     - _Cutoff: 0.5
-    - _Depth: -9.1
+    - _Depth: -3.2
     - _DetailNormalMapScale: 1
-    - _DistanceFade: 5.46
-    - _DistanceFalloff: 1.5
+    - _DistanceFade: 6.08
     - _DstBlend: 0
-    - _EdgeLength: 47.6
-    - _Falloff: 33.6
+    - _Falloff: 80.6
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _MaximuimTessellationDistance: 0
     - _Metallic: 0
-    - _MinimumTessellationDistance: 0.57
     - _Mode: 0
-    - _Noise1Scale: 0.0025
-    - _Noise2Scale: 0.001
+    - _Noise1Scale: 0.005
+    - _Noise2Scale: 0.002
     - _NormalScale: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TessellationFactor: 4.8
     - _UVSec: 0
     - _ZWrite: 1
     - __dirty: 0

@@ -64,7 +64,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ReflectionMap:
-        m_Texture: {fileID: 2800000, guid: 33a98c6fc46c6c9488b7091caab72548, type: 3}
+        m_Texture: {fileID: 2800000, guid: b11dea2c4d9e37140b8682c043ec9ac3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ReflectionMap1:

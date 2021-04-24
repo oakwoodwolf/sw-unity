@@ -10,7 +10,7 @@ public class PlayerAnimator : MonoBehaviour
         public AudioClip clip;
     }
 
-    public Animator animator;
+    [SerializeField] Animator animator;
     PlayerController player;
     PlayerActions Actions;
     float PrevRot;
@@ -67,12 +67,11 @@ public class PlayerAnimator : MonoBehaviour
         animator.SetBool("Dead", PlayerHealth.IsDead);
         SpinBall.GetComponent<Animator>().SetFloat("Speed", Ground.magnitude);
 
-        SpinBall.SetActive(PlayerActions.currentState is JumpState);
+        SpinBall.SetActive(PlayerActions.currentState is ActionJump);
 
-        if (PlayerActions.currentState is SpinDashState)
+        if (PlayerActions.currentState is ActionSpindash)
         {
-            SpinDashState s = PlayerActions.currentState as SpinDashState;
-            animator.SetFloat("GroundSpeed", s.SpinDashCharge);
+            animator.SetFloat("GroundSpeed", Actions.spinDashState.SpinDashCharge);
             if (!SpinDashParticles.isPlaying)
             {
                 SpinDashParticles.Play();

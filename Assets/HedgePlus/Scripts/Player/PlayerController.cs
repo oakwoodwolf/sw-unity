@@ -13,8 +13,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] [Range(0, 1)] float InputDeadZone = 0.1f; //Minimum amount of input needed for movement
     [HideInInspector] public Vector3 InputDir;
     [HideInInspector] public Vector3 GroundNormal;
-    [HideInInspector] public float GroundAngle;
-    [HideInInspector] public Vector3 GroundTangent; //Tangent of the current surface; this is used for camera orientation
 
     public LayerMask GroundLayer; //What layers are detected as solid ground
     public float GroundCheckDistance = 0.6f; //How far do we check for ground
@@ -41,6 +39,7 @@ public class PlayerController : MonoBehaviour
     Vector3 GroundPoint;
 
     //Slopes
+    float GroundAngle;
     [SerializeField] float GroundStickSpeed = 10f;
     [SerializeField] float MaxStandingAngle = 30f;
     [SerializeField] float MaxAngle = 90f;
@@ -50,16 +49,8 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Drives if we are using UphillForce or DownhillForce")] [SerializeField] AnimationCurve SlopeForceOverDirection;
     [SerializeField] float RollingSlopeMultiplier = 1.5f;
     [SerializeField] float RollSteering = 1f;
-
-    //Step Offsetting
-    public float MaxStepHeight = 0.35f; //Highest step Sonic can adjust to
-    public float MinStepHeight = 0.01f; //Lowest step Sonic can adjust to
-    public float MinCheckDistance = 0.5f;
-    public float MaxNormal = 0.95f;
-    public float SpeedStepThreshold = 5;
     public bool InputLocked { get; set; }
     public bool RotationLocked { get; set; }
-    public bool GravityLocked { get; set; }
     public float MaxFallingSpeed = 60f;
     public float SkidInputThreshold = -0.3f;
     public bool Crouching { get; set; }
@@ -74,7 +65,6 @@ public class PlayerController : MonoBehaviour
         col = GetComponent<CapsuleCollider>();
         actions = GetComponent<PlayerActions>();
         TurnRate = TurnSpeed;
-        GravityLocked = false;
     }
 
     // Update is called once per frame
@@ -83,7 +73,7 @@ public class PlayerController : MonoBehaviour
         if (!InputLocked)
             SetInputDirection();
 
-        bool CanSkid = PlayerActions.currentState is DefaultState;
+        bool CanSkid = PlayerActions.currentState is ActionDefault;
         if (!CanSkid && Skidding)
         {
             Skidding = false;
@@ -109,11 +99,10 @@ public class PlayerController : MonoBehaviour
                 HandleMovement();
             //Project velocity to ground normal
             rigidBody.velocity = Vector3.ProjectOnPlane(rigidBody.velocity, GroundNormal);
-            if (PlayerActions.currentState is DefaultState)
+            if (PlayerActions.currentState is ActionDefault)
             {
                 //Set ground position so Sonic doesn't fly off
                 rigidBody.position = ground.point + ground.normal * (col.height / 2);
-                //AdjustToSteps();
             }
             if (rigidBody.velocity.magnitude > GroundStickSpeed)
             {
@@ -121,20 +110,15 @@ public class PlayerController : MonoBehaviour
             }
             SlopePhysics();
 
-            //Here we will use Vector3.Cross to get the current ground tangent if Sonic is not on flat ground.
-            GroundAngle = Vector3.Angle(GroundNormal, Vector3.up);
-            GroundTangent = SurfaceTangent(GroundNormal, Gravity);
-            Debug.DrawRay(transform.position, GroundTangent);
-
         } else
         {
             Grounded = false;
             if (Skidding) Skidding = false;
-            GroundNormal = -Gravity.normalized;
+            GroundNormal = Vector3.up;
             if (!InputLocked)
                 HandleMovement();
             //Add gravity
-            if (!GravityLocked) rigidBody.velocity += Gravity * Time.fixedDeltaTime;
+            rigidBody.velocity += Gravity * Time.fixedDeltaTime;
             TransformNormal = Vector3.Slerp(TransformNormal, Vector3.up, Time.fixedDeltaTime * NormalCorrectionSpeed);
 
         }
@@ -409,60 +393,10 @@ public class PlayerController : MonoBehaviour
         return WillBeGrounded;
     }
 
-    void AdjustToSteps()
-    {
-        Vector3 InitialPosition = transform.position;
-        Vector3 InitialVelocity = rigidBody.velocity;
-        Vector3 FootPos = transform.position - transform.up * 0.5f;
-        Vector3 LocalFootPos = transform.InverseTransformPoint(FootPos);
-        Vector3 CheckPos = FootPos + transform.up * MaxStepHeight;
-        Vector3 InputCheck = rigidBody.velocity.magnitude > SpeedStepThreshold ? InputDir : rigidBody.velocity.normalized;
-        if (!Physics.Raycast(new Ray(CheckPos, InputCheck), MinCheckDistance, GroundLayer))
-        {
-            Debug.DrawLine(CheckPos, CheckPos + InputCheck * MinCheckDistance, Color.green);
-            CheckPos += InputCheck * MinCheckDistance;
-            if (Physics.Raycast(CheckPos, -transform.up, out RaycastHit hit, MaxStepHeight, GroundLayer))
-            {
-                Debug.DrawLine(CheckPos, hit.point);
-                bool NormalCheck = Vector3.Dot(GroundNormal, hit.normal) >= MaxNormal;
-                if (NormalCheck)
-                {
-                    Vector3 LocalStepPos = transform.InverseTransformPoint(hit.point);
-                    float Difference = LocalStepPos.y - LocalFootPos.y;
-                    Debug.Log("Step Difference:" + Difference);
-                    if (Difference > MinStepHeight)
-                    {
-                        //transform.position += hit.normal * Difference;
-                        rigidBody.MovePosition(rigidBody.position + hit.normal * Difference + InitialVelocity * Time.fixedDeltaTime);
-                        rigidBody.velocity = Vector3.ProjectOnPlane(InitialVelocity, hit.normal);
-                    }
-                }
-            }
-        }
-        else
-        {
-            Debug.DrawLine(CheckPos, CheckPos + InputCheck * MinCheckDistance, Color.red);
-        }
-    }
-
-    Vector3 SurfaceTangent (Vector3 normal, Vector3 gravity)
-    {
-        Vector3 v1 = Vector3.Cross(normal, gravity);
-        Vector3 Tan = Vector3.Cross(v1, normal);
-        return Tan.normalized;
-    }
-
     public IEnumerator LockInput (float duration)
     {
         InputLocked = true;
         yield return new WaitForSeconds(duration);
         InputLocked = false;
-    }
-
-    public IEnumerator LockGravity (float duration)
-    {
-        GravityLocked = true;
-        yield return new WaitForSeconds(duration);
-        GravityLocked = false;
     }
 }
