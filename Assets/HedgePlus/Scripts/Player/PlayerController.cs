@@ -7,10 +7,11 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [HideInInspector] public InputHandler a_input;
+    public PlayerInput  a_action;
     [HideInInspector] public Rigidbody rigidBody;
     PlayerActions actions;
     [HideInInspector] public CapsuleCollider col;
-    [SerializeField] Transform camera; //Reference to the main camera, so we can align our input correctly
+    [SerializeField] Camera camera; //Reference to the main camera, so we can align our input correctly
     [SerializeField] [Range(0, 1)] float InputDeadZone = 0.1f; //Minimum amount of input needed for movement
     [HideInInspector] public Vector3 InputDir;
     [HideInInspector] public Vector3 GroundNormal;
@@ -72,6 +73,8 @@ public class PlayerController : MonoBehaviour
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
         a_input = InputHandler.instance;
+        a_action = GetComponent<PlayerInput>();
+        a_action.camera = camera;
         rigidBody = GetComponent<Rigidbody>();
         GroundNormal = Vector3.up;
         col = GetComponent<CapsuleCollider>();
@@ -364,7 +367,7 @@ public class PlayerController : MonoBehaviour
         RawInput = Vector3.ClampMagnitude(RawInput, 1); //Clamp RawInput's magnitude to 1 so it doesn't double up when holding diagonally on the stick
 
         //Align RawInput to Camera Direction and Ground Normal
-        Vector3 TransformedInput = Quaternion.FromToRotation(camera.up, GroundNormal) * (camera.rotation * RawInput);
+        Vector3 TransformedInput = Quaternion.FromToRotation(camera.transform.up, GroundNormal) * (camera.transform.rotation * RawInput);
         //Project TransformedInput to the current ground normal to make sure it's aligning correctly
         TransformedInput = Vector3.ProjectOnPlane(TransformedInput, GroundNormal);
         //Set Input Direction to normalized TransformedInput with RawInput's magnitude

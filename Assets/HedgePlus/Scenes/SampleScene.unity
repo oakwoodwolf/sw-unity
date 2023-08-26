@@ -1636,12 +1636,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc4ae221092dd5499e9684e44374833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &282840814 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7414581244522256132, guid: e9b1c5c3aa030054a817cbe7ea9034df,
-    type: 3}
-  m_PrefabInstance: {fileID: 7414581244267993578}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &291413980 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7457178683151015988, guid: e0aa524a7a747d542b87801a929277c5,
@@ -8256,6 +8250,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8835085214278640242}
   m_PrefabAsset: {fileID: 0}
+--- !u!20 &1382154046 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 7414581244522256135, guid: e9b1c5c3aa030054a817cbe7ea9034df,
+    type: 3}
+  m_PrefabInstance: {fileID: 7414581244267993578}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1384277541 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7457178683151015988, guid: e0aa524a7a747d542b87801a929277c5,
@@ -14017,7 +14017,7 @@ PrefabInstance:
         type: 3}
       propertyPath: camera
       value: 
-      objectReference: {fileID: 282840814}
+      objectReference: {fileID: 1382154046}
     - target: {fileID: 1224422401827757320, guid: be580513b723fb94e8048c87318cebbc,
         type: 3}
       propertyPath: MaxDecelRate
@@ -14078,6 +14078,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player_Sonic
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224422401827757333, guid: be580513b723fb94e8048c87318cebbc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1224422401827757335, guid: be580513b723fb94e8048c87318cebbc,
         type: 3}

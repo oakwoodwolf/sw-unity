@@ -20305,6 +20305,7 @@ GameObject:
   - component: {fileID: 1224422401827757323}
   - component: {fileID: 1224422401827757327}
   - component: {fileID: 1224422401827757312}
+  - component: {fileID: 8128460832781186118}
   m_Layer: 9
   m_Name: Player_Sonic
   m_TagString: Player
@@ -20375,9 +20376,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   a_input: {fileID: 0}
+  a_action: {fileID: 0}
   rigidBody: {fileID: 0}
   col: {fileID: 0}
-  camera: {fileID: 0}
+  camera: {fileID: 7414581244522256135, guid: e9b1c5c3aa030054a817cbe7ea9034df, type: 3}
   InputDeadZone: 0.1
   InputDir: {x: 0, y: 0, z: 0}
   GroundNormal: {x: 0, y: 0, z: 0}
@@ -20852,6 +20854,57 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeSpline: {fileID: 0}
+--- !u!114 &8128460832781186118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224422401827757333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: d8d64997354b75442ad0ca9288c19d12,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 03cf6802-30e5-43d5-abd3-58373c83b0ac
+    m_ActionName: Player/Movement[/XInputControllerWindows/leftStick,/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 939d593f-c528-4544-afce-773fb4c5e7a7
+    m_ActionName: Player/Camera[/XInputControllerWindows/rightStick,/XInputControllerWindows/rightStick,/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a246ecbc-9091-44f1-a02c-c0eb6b4d7d18
+    m_ActionName: Player/Jump[/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth,/Mouse/leftButton,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 19bcd11a-a919-4733-a2ab-f03e7705afb3
+    m_ActionName: Player/Roll[/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonEast,/Mouse/rightButton,/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f0f68d53-aaff-4627-badc-6e636fa24d71
+    m_ActionName: Player/Pause[/XInputControllerWindows/start,/XInputControllerWindows/start,/Keyboard/enter]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &1224422401915251226
 GameObject:
   m_ObjectHideFlags: 0
@@ -27575,15 +27628,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 607659c01ac54f847b3ffbabb2c1e5bc, type: 3}
---- !u!1 &7196726614227853580 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 607659c01ac54f847b3ffbabb2c1e5bc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1224422400631371781}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2224212396863429744 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1018931497261425781, guid: 607659c01ac54f847b3ffbabb2c1e5bc,
+--- !u!95 &4255535100510666341 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: 607659c01ac54f847b3ffbabb2c1e5bc,
     type: 3}
   m_PrefabInstance: {fileID: 1224422400631371781}
   m_PrefabAsset: {fileID: 0}
@@ -27593,9 +27640,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1224422400631371781}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &4255535100510666341 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: 607659c01ac54f847b3ffbabb2c1e5bc,
+--- !u!1 &7196726614227853580 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 607659c01ac54f847b3ffbabb2c1e5bc,
     type: 3}
   m_PrefabInstance: {fileID: 1224422400631371781}
   m_PrefabAsset: {fileID: 0}
@@ -27614,6 +27661,12 @@ Transform:
 --- !u!137 &2931083846045582968 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -5164704539138900355, guid: 607659c01ac54f847b3ffbabb2c1e5bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1224422400631371781}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2224212396863429744 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1018931497261425781, guid: 607659c01ac54f847b3ffbabb2c1e5bc,
     type: 3}
   m_PrefabInstance: {fileID: 1224422400631371781}
   m_PrefabAsset: {fileID: 0}
