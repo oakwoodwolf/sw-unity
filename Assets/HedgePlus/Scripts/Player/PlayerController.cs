@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 public class PlayerController : MonoBehaviour
@@ -15,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Vector3 GroundNormal;
     [HideInInspector] public float GroundAngle;
     [HideInInspector] public Vector3 GroundTangent; //Tangent of the current surface; this is used for camera orientation
-
+    PlayerInputActions playerInputActions;
     public LayerMask GroundLayer; //What layers are detected as solid ground
     public float GroundCheckDistance = 0.6f; //How far do we check for ground
     [SerializeField] AnimationCurve GroundCheckOverSpeed; //Modifies GroundCheckDistance so we can stick to the ground easier
@@ -68,6 +69,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerInputActions = new PlayerInputActions();
+        playerInputActions.Player.Enable();
         a_input = InputHandler.instance;
         rigidBody = GetComponent<Rigidbody>();
         GroundNormal = Vector3.up;
@@ -352,11 +355,11 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void SetInputDirection()
+    public void SetInputDirection()
     {
         //Get the input as a Vector3
-        float hInput = a_input.GetAxis("Horizontal");
-        float vInput = a_input.GetAxis("Vertical");
+        float hInput = playerInputActions.Player.Movement.ReadValue<Vector2>().x;
+        float vInput = playerInputActions.Player.Movement.ReadValue<Vector2>().y;
         Vector3 RawInput = new Vector3(hInput, 0, vInput); //Horizontal Input controls left and right, Vertical Input controls forward and backward
         RawInput = Vector3.ClampMagnitude(RawInput, 1); //Clamp RawInput's magnitude to 1 so it doesn't double up when holding diagonally on the stick
 

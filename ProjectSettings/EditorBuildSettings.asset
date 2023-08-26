@@ -14,4 +14,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/HedgePlus/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: d4781c8821973ed4f919cc05ff283229,
+      type: 2}
