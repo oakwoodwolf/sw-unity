@@ -14,7 +14,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/HedgePlus/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
-    path: Assets/HedgePlus/Scenes/WindyValley.unity
-    guid: cd497dd1c7acaad43924e314e4eb0b28
   m_configObjects: {}
