@@ -63,9 +63,9 @@ public class PlayerCamera : MonoBehaviour
         {
             LookDir = TargetOffset - transform.position;
             LookDir.Normalize();
-
-            XInput = (Input.GetAxis(GamepadX) * StickSensitivity) + (Input.GetAxis(MouseX) * MouseSensitivity);
-            YInput = Input.GetAxis(GamepadY) + Input.GetAxis(MouseY);
+            
+            XInput = (Player.playerInputActions.Player.Camera.ReadValue<Vector2>().x * StickSensitivity);
+            YInput = Player.playerInputActions.Player.Camera.ReadValue<Vector2>().y;
 
             LookDir = Quaternion.AngleAxis(OrbitSpeed * XInput * Time.deltaTime, FollowTarget.up) * LookDir;
         }

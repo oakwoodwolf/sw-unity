@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Vector3 GroundNormal;
     [HideInInspector] public float GroundAngle;
     [HideInInspector] public Vector3 GroundTangent; //Tangent of the current surface; this is used for camera orientation
-    PlayerInputActions playerInputActions;
+    [HideInInspector] public PlayerInputActions playerInputActions;
     public LayerMask GroundLayer; //What layers are detected as solid ground
     public float GroundCheckDistance = 0.6f; //How far do we check for ground
     [SerializeField] AnimationCurve GroundCheckOverSpeed; //Modifies GroundCheckDistance so we can stick to the ground easier
