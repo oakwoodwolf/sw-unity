@@ -28,8 +28,7 @@ public class JumpState : ActionBase
         actions.UpdateTargets();
         if (jumpTimer < MaxJumpTime)
             jumpTimer += Time.deltaTime;
-        if (player.a_input.GetButton("Jump", InputHandler.ButtonState.Up) && jumpTimer < MaxJumpTime)
-            jumpTimer = MaxJumpTime;
+            player.playerInputActions.Player.Jump.canceled += JumpCancelled;
         if (player.Grounded && jumpTimer > MinJumpTime)
         {
             JumpIndex = 0;
@@ -64,6 +63,16 @@ public class JumpState : ActionBase
 
         }
     }
+
+    private void JumpCancelled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (obj.canceled)
+        {
+            jumpTimer = MaxJumpTime;
+
+        }
+    }
+
     public override void FixedUpdateState()
     {
         if (jumpTimer < MaxJumpTime)

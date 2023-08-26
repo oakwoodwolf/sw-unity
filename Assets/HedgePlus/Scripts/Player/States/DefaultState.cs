@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 [AddComponentMenu("Pinball/Actions/Default")]
 [RequireComponent(typeof(PlayerActions))]
 public class DefaultState : ActionBase
@@ -22,28 +24,15 @@ public class DefaultState : ActionBase
         if (player.Grounded)
         {
             actions.DidDash = false;
-            if (player.a_input.GetButton("Jump", InputHandler.ButtonState.Down))
-            {
-                bool JumpDisabled = player.Crouching && player.rigidBody.velocity.magnitude < RollingStartSpeed;
-                if (!JumpDisabled)
-                {
-                    actions.animator.PlayJumpSound();
-                    actions.animator.PlayJumpVoice();
-                    if (actions.CheckForState(typeof(JumpState))) actions.ChangeState(typeof(JumpState));
-                }
-            }
+            player.playerInputActions.Player.Jump.performed += Jump_performed;
+            
             if (player.a_input.GetButton("Crouch", InputHandler.ButtonState.Down) && speed >= RollingStartSpeed)
             {
                 player.Crouching = !player.Crouching;
             }
             if (speed < RollingStartSpeed)
             {
-                if (player.a_input.GetButton("Crouch", InputHandler.ButtonState.Down))
-                {
-                    col.height = CrouchHeight;
-                    col.center = new Vector3(0, CrouchOffset, 0);
-                    actions.ChangeState(typeof(SpinDashState));
-                }
+                player.playerInputActions.Player.Roll.performed += ChargeSpindash;
             }
 
             col.height = player.Crouching ? CrouchHeight : 1f;
@@ -84,6 +73,35 @@ public class DefaultState : ActionBase
 
         actions.UpdateTargets();
     }
+
+    private void Jump_performed(InputAction.CallbackContext obj)
+    {
+        if (obj.performed)
+        {
+            if (player.Grounded)
+            {
+                bool JumpDisabled = player.Crouching && player.rigidBody.velocity.magnitude < RollingStartSpeed;
+                if (!JumpDisabled)
+                {
+                    actions.animator.PlayJumpSound();
+                    actions.animator.PlayJumpVoice();
+                    if (actions.CheckForState(typeof(JumpState))) actions.ChangeState(typeof(JumpState));
+                }
+            }
+        }
+    }
+
+    private void ChargeSpindash(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            col.height = CrouchHeight;
+            col.center = new Vector3(0, CrouchOffset, 0);
+            actions.ChangeState(typeof(SpinDashState));
+        }
+        
+    }
+
     public override void FixedUpdateState()
     {
 
