@@ -42,6 +42,7 @@ public class SpinDashState : ActionBase
     public override void UpdateState()
     {
         base.UpdateState();
+        
         if (SpinDashCharge < MaxCharge)
         {
             switch (spinDashType)
@@ -78,6 +79,7 @@ public class SpinDashState : ActionBase
     public override void FixedUpdateState()
     {
         base.FixedUpdateState();
-        player.rigidBody.velocity = Vector3.zero;
+        player.SetInputDirection();
+        player.rigidBody.velocity = player.rigidBody.velocity / 1.5f;
     }
 }

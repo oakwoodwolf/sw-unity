@@ -11,6 +11,7 @@ public class PlayerAnimator : MonoBehaviour
     }
 
     public Animator animator;
+    public VolumeTrailRenderer HomingTrail;
     PlayerController player;
     PlayerActions Actions;
     float PrevRot;
@@ -179,6 +180,12 @@ public class PlayerAnimator : MonoBehaviour
     public void PlayHomingSound()
     {
         ActionSoundSource.clip = GetSoundFromBank("Homing", ActionSounds);
+        ActionSoundSource.loop = false;
+        ActionSoundSource.Play();
+    }
+    public void PlayCrouchSound()
+    {
+        ActionSoundSource.clip = GetSoundFromBank("Crouch", ActionSounds);
         ActionSoundSource.loop = false;
         ActionSoundSource.Play();
     }

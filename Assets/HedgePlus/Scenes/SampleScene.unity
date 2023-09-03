@@ -4638,6 +4638,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 760902580}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &762753103 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1224422401143499461, guid: be580513b723fb94e8048c87318cebbc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1224422401777979576}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c13bce7221186c4bbf9c4b6b5c4287f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &772258306
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14548,10 +14560,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1224422401827757322, guid: be580513b723fb94e8048c87318cebbc,
         type: 3}
+      propertyPath: ActionSounds.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224422401827757322, guid: be580513b723fb94e8048c87318cebbc,
+        type: 3}
       propertyPath: Voice
       value: 
       objectReference: {fileID: 11400000, guid: f7a5f07db0f7f7147bd562a6ca428c2a,
         type: 2}
+    - target: {fileID: 1224422401827757322, guid: be580513b723fb94e8048c87318cebbc,
+        type: 3}
+      propertyPath: ActionSounds.Array.data[8].Name
+      value: Crouch
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224422401827757322, guid: be580513b723fb94e8048c87318cebbc,
+        type: 3}
+      propertyPath: ActionSounds.Array.data[8].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9bde43343a1069441b102ee6d7b1a63c, type: 3}
+    - target: {fileID: 1224422401827757322, guid: be580513b723fb94e8048c87318cebbc,
+        type: 3}
+      propertyPath: HomingTrail
+      value: 
+      objectReference: {fileID: 762753103}
     - target: {fileID: 1224422401827757324, guid: be580513b723fb94e8048c87318cebbc,
         type: 3}
       propertyPath: camera
@@ -14646,6 +14678,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2598968979533799828, guid: be580513b723fb94e8048c87318cebbc,
+        type: 3}
+      propertyPath: ChargeWhileRunning
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6662475056557839193, guid: be580513b723fb94e8048c87318cebbc,
+        type: 3}
+      propertyPath: RollingStartThreshold
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6662475056557839193, guid: be580513b723fb94e8048c87318cebbc,
+        type: 3}
+      propertyPath: SpindashStartThreshold
+      value: 0.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be580513b723fb94e8048c87318cebbc, type: 3}

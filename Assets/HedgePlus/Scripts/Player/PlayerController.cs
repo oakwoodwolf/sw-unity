@@ -354,7 +354,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void SetInputDirection()
+    public void SetInputDirection()
     {
         //Get the input as a Vector3
         float hInput = p_input.GetAxis("MoveH");

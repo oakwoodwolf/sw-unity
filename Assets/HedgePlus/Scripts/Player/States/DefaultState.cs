@@ -5,7 +5,9 @@ using UnityEngine;
 public class DefaultState : ActionBase
 {
     public float RollingStartThreshold;
+    public float SpindashStartThreshold;
     public CapsuleCollider col;
+    private bool hasCrouched = false;
     public float CrouchHeight = 0.67f; //How tall the collider is when crouching
     public float CrouchOffset = -0.028f; //Y Offset of the collider when crouching
     public override void InitializeState(PlayerController p, PlayerActions a)
@@ -14,10 +16,29 @@ public class DefaultState : ActionBase
         actions.StateIndex = 0;
         Debug.Log("Current State: Regular");
     }
-
+    
     public override void UpdateState()
     {
+        
         float speed = player.rigidBody.velocity.magnitude;
+        if (player.Crouching && !hasCrouched)
+        {
+            actions.animator.PlayCrouchSound();
+            if (speed > 5f)
+            {
+                actions.animator.HomingTrail.emitTime = 10f;
+                actions.animator.HomingTrail.emit = true;
+            }
+            
+
+            hasCrouched = true;
+        }
+        if (!player.Crouching && hasCrouched)
+        {
+            actions.animator.HomingTrail.emit = false;
+
+            hasCrouched = false;
+        }
         if (player.Grounded)
         {
             actions.DidDash = false;
@@ -31,8 +52,9 @@ public class DefaultState : ActionBase
                     if (actions.CheckForState(typeof(JumpState))) actions.ChangeState(typeof(JumpState));
                 }
             }
-            if (player.p_input.GetAxis("Roll") < 0.7 && player.p_input.GetAxis("Roll") > RollingStartThreshold)
+            if (player.p_input.GetAxis("Roll") < SpindashStartThreshold && player.p_input.GetAxis("Roll") > RollingStartThreshold)
             {
+                
                 player.Crouching = true;
             }
             if (player.p_input.GetAxis("Roll") <= RollingStartThreshold)
@@ -40,7 +62,7 @@ public class DefaultState : ActionBase
                 player.Crouching = false;
             }
 
-                if (player.p_input.GetAxis("Roll") >= 0.7)
+                if (player.p_input.GetAxis("Roll") >= SpindashStartThreshold)
                 {
                     col.height = CrouchHeight;
                     col.center = new Vector3(0, CrouchOffset, 0);
