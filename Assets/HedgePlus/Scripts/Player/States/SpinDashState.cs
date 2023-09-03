@@ -72,7 +72,7 @@ public class SpinDashState : ActionBase
         {
             actions.animator.SpinDashRelease();
             player.Crouching = true;
-            player.rigidBody.velocity = player.transform.forward * SpinDashCharge;
+            player.rigidBody.velocity += player.transform.forward * SpinDashCharge;
             actions.ChangeState(typeof(DefaultState));
         }
         if (player.p_input.GetButtonDown("Jump") && spinDashType == DashStyle.Adventure)
@@ -87,6 +87,7 @@ public class SpinDashState : ActionBase
     public override void FixedUpdateState()
     {
         base.FixedUpdateState();
-        player.rigidBody.velocity = Vector3.zero;
+        player.rigidBody.velocity = new Vector3(player.rigidBody.velocity.x /1.1f, player.rigidBody.velocity.y, player.rigidBody.velocity.z /1.1f);
+       // player.rigidBody.velocity = Vector3.zero;
     }
 }

@@ -28,6 +28,7 @@ public class StompState : ActionBase
     public override void InitializeState(PlayerController p, PlayerActions a)
     {
         base.InitializeState(p, a);
+        actions.animator.HomingTrail.emit = true;
         StartStomp();
     }
 
@@ -53,7 +54,7 @@ public class StompState : ActionBase
         }
         if (player.Grounded)
         {
-            if (canBounce && player.p_input.GetAxis("Roll") > 0.55 && !HasBounced)
+            if (canBounce && player.p_input.GetAxis("Roll") > 0.8 && !HasBounced)
             {
                 actions.animator.PlayBounceSound();
                     Bounce(player.GroundNormal);
@@ -70,8 +71,8 @@ public class StompState : ActionBase
                 actions.ChangeState(typeof(DefaultState));
             }
             
-            GameObject part = Instantiate(particle, player.transform.position, Quaternion.identity);
-            part.transform.parent = player.transform;
+            GameObject part = Instantiate(particle, player.transform.position, Quaternion.LookRotation(player.GroundNormal));
+           // part.transform.parent = player.transform;
             
 
         }
@@ -108,6 +109,8 @@ public class StompState : ActionBase
                 if (actions.CheckForState(typeof(DoubleJumpState)))
                 {
                     actions.ChangeState(typeof(DoubleJumpState));
+                    actions.animator.HomingTrail.emit = false;
+
                 }
                 else
                 {
@@ -122,6 +125,8 @@ public class StompState : ActionBase
                         {
                             actions.DidDash = true;
                             actions.ChangeState(typeof(FlyState));
+                            actions.animator.HomingTrail.emit = false;
+
                         }
                     }
                 }
