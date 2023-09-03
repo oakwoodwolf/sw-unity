@@ -63,6 +63,13 @@ public class JumpState : ActionBase
             }
 
         }
+        if (player.p_input.GetButtonDown("Roll"))
+        {
+            if (actions.CheckForState(typeof(StompState)))
+            {
+                actions.ChangeState(typeof(StompState));
+            }
+        }
     }
     public override void FixedUpdateState()
     {

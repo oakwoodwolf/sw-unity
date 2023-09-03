@@ -78,6 +78,13 @@ public class DefaultState : ActionBase
         }
         else
         {
+            if (player.p_input.GetButtonDown("Roll"))
+            {
+                if (actions.CheckForState(typeof(StompState)))
+                {
+                    actions.ChangeState(typeof(StompState));
+                }
+            }
             if (player.p_input.GetButtonDown("Jump"))
             {
                 if (actions.ClosestTarget == null)
@@ -104,7 +111,7 @@ public class DefaultState : ActionBase
                 }
             }
         }
-
+        
         actions.UpdateTargets();
     }
     public override void FixedUpdateState()

@@ -150,7 +150,24 @@ public class PlayerAnimator : MonoBehaviour
         ActionSoundSource.loop = false;
         ActionSoundSource.Play();
     }
-
+    public void PlayStompSound()
+    {
+        ActionSoundSource.clip = GetSoundFromBank("Stomp", ActionSounds);
+        ActionSoundSource.loop = false;
+        ActionSoundSource.Play();
+    }
+    public void PlayStompImpactSound()
+    {
+        ActionSoundSource.clip = GetSoundFromBank("Stomp Impact", ActionSounds);
+        ActionSoundSource.loop = false;
+        ActionSoundSource.Play();
+    }
+    public void PlayBounceSound()
+    {
+        ActionSoundSource.clip = GetSoundFromBank("Bounce", ActionSounds);
+        ActionSoundSource.loop = false;
+        ActionSoundSource.Play();
+    }
     public void PlayDoubleJumpSound()
     {
         ActionSoundSource.clip = GetSoundFromBank("DoubleJump", ActionSounds);
