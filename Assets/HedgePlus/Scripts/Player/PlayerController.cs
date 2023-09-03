@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Rewired;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 public class PlayerController : MonoBehaviour
 {
-    [HideInInspector] public InputHandler a_input;
+    [SerializeField] private int playerID = 0;
+    [SerializeField] public Player p_input;
     [HideInInspector] public Rigidbody rigidBody;
     PlayerActions actions;
     [HideInInspector] public CapsuleCollider col;
@@ -68,7 +70,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        a_input = InputHandler.instance;
+        p_input = ReInput.players.GetPlayer(playerID);
         rigidBody = GetComponent<Rigidbody>();
         GroundNormal = Vector3.up;
         col = GetComponent<CapsuleCollider>();
@@ -355,8 +357,8 @@ public class PlayerController : MonoBehaviour
     void SetInputDirection()
     {
         //Get the input as a Vector3
-        float hInput = a_input.GetAxis("Horizontal");
-        float vInput = a_input.GetAxis("Vertical");
+        float hInput = p_input.GetAxis("MoveH");
+        float vInput = p_input.GetAxis("MoveV");
         Vector3 RawInput = new Vector3(hInput, 0, vInput); //Horizontal Input controls left and right, Vertical Input controls forward and backward
         RawInput = Vector3.ClampMagnitude(RawInput, 1); //Clamp RawInput's magnitude to 1 so it doesn't double up when holding diagonally on the stick
 

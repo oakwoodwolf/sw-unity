@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 [AddComponentMenu("Pinball/Actions/Default")]
 [RequireComponent(typeof(PlayerActions))]
@@ -22,7 +21,7 @@ public class DefaultState : ActionBase
         if (player.Grounded)
         {
             actions.DidDash = false;
-            if (player.a_input.GetButton("Jump", InputHandler.ButtonState.Down))
+            if (player.p_input.GetButtonDown("Jump"))
             {
                 bool JumpDisabled = player.Crouching && player.rigidBody.velocity.magnitude < RollingStartSpeed;
                 if (!JumpDisabled)
@@ -32,13 +31,17 @@ public class DefaultState : ActionBase
                     if (actions.CheckForState(typeof(JumpState))) actions.ChangeState(typeof(JumpState));
                 }
             }
-            if (player.a_input.GetButton("Crouch", InputHandler.ButtonState.Down) && speed >= RollingStartSpeed)
+            if (player.p_input.GetAxis("Roll") < 0.7 && player.p_input.GetAxis("Roll") > 0.1)
             {
-                player.Crouching = !player.Crouching;
+                player.Crouching = true;
+            }
+            if (player.p_input.GetAxis("Roll") <= 0.1)
+            {
+                player.Crouching = false;
             }
             if (speed < RollingStartSpeed)
             {
-                if (player.a_input.GetButton("Crouch", InputHandler.ButtonState.Down))
+                if (player.p_input.GetAxis("Roll") >= 0.7)
                 {
                     col.height = CrouchHeight;
                     col.center = new Vector3(0, CrouchOffset, 0);
@@ -55,7 +58,7 @@ public class DefaultState : ActionBase
         }
         else
         {
-            if (player.a_input.GetButton("Jump", InputHandler.ButtonState.Down))
+            if (player.p_input.GetButtonDown("Jump"))
             {
                 if (actions.ClosestTarget == null)
                 {

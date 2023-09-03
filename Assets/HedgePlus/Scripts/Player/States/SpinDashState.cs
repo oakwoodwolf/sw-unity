@@ -50,7 +50,7 @@ public class SpinDashState : ActionBase
                     SpinDashCharge += MaxCharge * (Time.deltaTime / ChargeDuration);
                     break;
                 case DashStyle.Classic:
-                    if (player.a_input.GetButton("Jump", InputHandler.ButtonState.Down))
+                    if (player.p_input.GetButtonDown("Jump"))
                     {
                         SpinDashCharge += RevAmount;
                         actions.animator.SpinDashSingle();
@@ -58,7 +58,7 @@ public class SpinDashState : ActionBase
                     break;
             }
         }
-        if (player.a_input.GetButton("Crouch", InputHandler.ButtonState.Up))
+        if (player.p_input.GetAxis("Roll") < 0.1)
         {
             actions.animator.SpinDashRelease();
             player.Crouching = true;

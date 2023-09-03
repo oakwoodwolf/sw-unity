@@ -20375,6 +20375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   a_input: {fileID: 0}
+  playerID: 0
   rigidBody: {fileID: 0}
   col: {fileID: 0}
   camera: {fileID: 0}
@@ -20424,7 +20425,7 @@ MonoBehaviour:
   Grounded: 0
   MaxAngleDifference: 45
   NormalCorrectionSpeed: 3
-  AccelRate: 8
+  AccelRate: 12
   MinDecelRate: 1.01
   MaxDecelRate: 1.03
   TopSpeed: 60
