@@ -47,6 +47,7 @@ public class SpinDashState : ActionBase
             switch (spinDashType)
             {
                 case DashStyle.Adventure:
+                    
                     SpinDashCharge += MaxCharge * (Time.deltaTime / ChargeDuration);
                     break;
                 case DashStyle.Classic:
@@ -64,6 +65,14 @@ public class SpinDashState : ActionBase
             player.Crouching = true;
             player.rigidBody.velocity = player.transform.forward * SpinDashCharge;
             actions.ChangeState(typeof(DefaultState));
+        }
+        if (player.p_input.GetButtonDown("Jump") && spinDashType == DashStyle.Adventure)
+        {
+
+            actions.animator.PlayJumpSound();
+            actions.animator.PlayJumpVoice();
+            if (actions.CheckForState(typeof(JumpState))) actions.ChangeState(typeof(JumpState));
+
         }
     }
     public override void FixedUpdateState()

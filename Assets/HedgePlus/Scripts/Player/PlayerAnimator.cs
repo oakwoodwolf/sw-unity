@@ -146,12 +146,14 @@ public class PlayerAnimator : MonoBehaviour
     public void PlayJumpSound()
     {
         ActionSoundSource.clip = GetSoundFromBank("Jump", ActionSounds);
+        ActionSoundSource.loop = false;
         ActionSoundSource.Play();
     }
 
     public void PlayDoubleJumpSound()
     {
         ActionSoundSource.clip = GetSoundFromBank("DoubleJump", ActionSounds);
+        ActionSoundSource.loop = false;
         ActionSoundSource.Play();
     }
 
@@ -177,6 +179,7 @@ public class PlayerAnimator : MonoBehaviour
     public void PlayHomingSound()
     {
         ActionSoundSource.clip = GetSoundFromBank("Homing", ActionSounds);
+        ActionSoundSource.loop = false;
         ActionSoundSource.Play();
     }
 

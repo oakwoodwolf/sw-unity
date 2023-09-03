@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerActions))]
 public class DefaultState : ActionBase
 {
-    public float RollingStartSpeed;
+    public float RollingStartThreshold;
     public CapsuleCollider col;
     public float CrouchHeight = 0.67f; //How tall the collider is when crouching
     public float CrouchOffset = -0.028f; //Y Offset of the collider when crouching
@@ -23,7 +23,7 @@ public class DefaultState : ActionBase
             actions.DidDash = false;
             if (player.p_input.GetButtonDown("Jump"))
             {
-                bool JumpDisabled = player.Crouching && player.rigidBody.velocity.magnitude < RollingStartSpeed;
+                bool JumpDisabled = player.Crouching && player.rigidBody.velocity.magnitude < RollingStartThreshold;
                 if (!JumpDisabled)
                 {
                     actions.animator.PlayJumpSound();
@@ -31,23 +31,21 @@ public class DefaultState : ActionBase
                     if (actions.CheckForState(typeof(JumpState))) actions.ChangeState(typeof(JumpState));
                 }
             }
-            if (player.p_input.GetAxis("Roll") < 0.7 && player.p_input.GetAxis("Roll") > 0.1)
+            if (player.p_input.GetAxis("Roll") < 0.7 && player.p_input.GetAxis("Roll") > RollingStartThreshold)
             {
                 player.Crouching = true;
             }
-            if (player.p_input.GetAxis("Roll") <= 0.1)
+            if (player.p_input.GetAxis("Roll") <= RollingStartThreshold)
             {
                 player.Crouching = false;
             }
-            if (speed < RollingStartSpeed)
-            {
+
                 if (player.p_input.GetAxis("Roll") >= 0.7)
                 {
                     col.height = CrouchHeight;
                     col.center = new Vector3(0, CrouchOffset, 0);
                     actions.ChangeState(typeof(SpinDashState));
                 }
-            }
 
             col.height = player.Crouching ? CrouchHeight : 1f;
             Vector3 Offset = new Vector3(0, player.Crouching ? CrouchOffset : 0f, 0);

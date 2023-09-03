@@ -14526,6 +14526,21 @@ PrefabInstance:
       propertyPath: MinDecelRate
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 1224422401827757320, guid: be580513b723fb94e8048c87318cebbc,
+        type: 3}
+      propertyPath: AirHandlingAmount
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224422401827757320, guid: be580513b723fb94e8048c87318cebbc,
+        type: 3}
+      propertyPath: DecelerateInAir
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224422401827757320, guid: be580513b723fb94e8048c87318cebbc,
+        type: 3}
+      propertyPath: RollingSlopeMultiplier
+      value: 1.7
+      objectReference: {fileID: 0}
     - target: {fileID: 1224422401827757321, guid: be580513b723fb94e8048c87318cebbc,
         type: 3}
       propertyPath: m_Drag
