@@ -28,7 +28,7 @@ public class JumpState : ActionBase
         actions.UpdateTargets();
         if (jumpTimer < MaxJumpTime)
             jumpTimer += Time.deltaTime;
-        if (player.a_input.GetButton("Jump", InputHandler.ButtonState.Up) && jumpTimer < MaxJumpTime)
+        if (player.p_input.GetButtonUp("Jump") && jumpTimer < MaxJumpTime)
             jumpTimer = MaxJumpTime;
         if (player.Grounded && jumpTimer > MinJumpTime)
         {
@@ -37,7 +37,7 @@ public class JumpState : ActionBase
             //actions.homingState.OnExit();
         }
 
-        if (player.a_input.GetButton("Jump", InputHandler.ButtonState.Down))
+        if (player.p_input.GetButtonDown("Jump"))
         {
             if (actions.ClosestTarget == null)
             {
@@ -62,6 +62,13 @@ public class JumpState : ActionBase
                 }
             }
 
+        }
+        if (player.p_input.GetButtonDown("Roll"))
+        {
+            if (actions.CheckForState(typeof(StompState)))
+            {
+                actions.ChangeState(typeof(StompState));
+            }
         }
     }
     public override void FixedUpdateState()

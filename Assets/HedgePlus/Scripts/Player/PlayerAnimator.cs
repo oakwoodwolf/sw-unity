@@ -11,6 +11,7 @@ public class PlayerAnimator : MonoBehaviour
     }
 
     public Animator animator;
+    public VolumeTrailRenderer HomingTrail;
     PlayerController player;
     PlayerActions Actions;
     float PrevRot;
@@ -146,12 +147,31 @@ public class PlayerAnimator : MonoBehaviour
     public void PlayJumpSound()
     {
         ActionSoundSource.clip = GetSoundFromBank("Jump", ActionSounds);
+        ActionSoundSource.loop = false;
         ActionSoundSource.Play();
     }
-
+    public void PlayStompSound()
+    {
+        ActionSoundSource.clip = GetSoundFromBank("Stomp", ActionSounds);
+        ActionSoundSource.loop = false;
+        ActionSoundSource.Play();
+    }
+    public void PlayStompImpactSound()
+    {
+        ActionSoundSource.clip = GetSoundFromBank("Stomp Impact", ActionSounds);
+        ActionSoundSource.loop = false;
+        ActionSoundSource.Play();
+    }
+    public void PlayBounceSound()
+    {
+        ActionSoundSource.clip = GetSoundFromBank("Bounce", ActionSounds);
+        ActionSoundSource.loop = false;
+        ActionSoundSource.Play();
+    }
     public void PlayDoubleJumpSound()
     {
         ActionSoundSource.clip = GetSoundFromBank("DoubleJump", ActionSounds);
+        ActionSoundSource.loop = false;
         ActionSoundSource.Play();
     }
 
@@ -177,6 +197,13 @@ public class PlayerAnimator : MonoBehaviour
     public void PlayHomingSound()
     {
         ActionSoundSource.clip = GetSoundFromBank("Homing", ActionSounds);
+        ActionSoundSource.loop = false;
+        ActionSoundSource.Play();
+    }
+    public void PlayCrouchSound()
+    {
+        ActionSoundSource.clip = GetSoundFromBank("Crouch", ActionSounds);
+        ActionSoundSource.loop = false;
         ActionSoundSource.Play();
     }
 

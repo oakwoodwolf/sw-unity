@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Rewired;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [AddComponentMenu("Pinball/Actions/Spin Dash")]
@@ -10,6 +11,7 @@ public class SpinDashState : ActionBase
     public DashStyle spinDashType;
 
     public int MaxRevs;
+    public float TurnRate = 15f;
     public float MaxCharge;
     public float ChargeDuration; //How long does it take to reach max charge
     public float SpinDashCharge { get; set; }
@@ -19,6 +21,7 @@ public class SpinDashState : ActionBase
     public override void InitializeState(PlayerController p, PlayerActions a)
     {
         base.InitializeState(p, a);
+        
         Debug.Log("Current State: Spin Dash");
         if (player != null)
             Debug.Log("Found Player Controller");
@@ -27,7 +30,7 @@ public class SpinDashState : ActionBase
         //col.height = actions.defaultState.CrouchHeight;
         //col.center = new Vector3(0, actions.defaultState.CrouchOffset, 0);
         actions.StateIndex = 4;
-        SpinDashCharge = 0;
+        SpinDashCharge = 15;
         RevAmount = MaxCharge / MaxRevs;
         switch (spinDashType)
         {
@@ -42,15 +45,22 @@ public class SpinDashState : ActionBase
     public override void UpdateState()
     {
         base.UpdateState();
+        player.p_input.SetVibration(0, 1.0f, 0.5f);
+        if (player.InputDir.sqrMagnitude > 0.01f)
+        {
+            Quaternion b = Quaternion.LookRotation(Vector3.ProjectOnPlane(player.InputDir, player.GroundNormal), player.GroundNormal);
+            player.transform.rotation = Quaternion.Slerp(player.transform.rotation, b, Time.deltaTime * TurnRate);
+        }
         if (SpinDashCharge < MaxCharge)
         {
             switch (spinDashType)
             {
                 case DashStyle.Adventure:
+                    
                     SpinDashCharge += MaxCharge * (Time.deltaTime / ChargeDuration);
                     break;
                 case DashStyle.Classic:
-                    if (player.a_input.GetButton("Jump", InputHandler.ButtonState.Down))
+                    if (player.p_input.GetButtonDown("Jump"))
                     {
                         SpinDashCharge += RevAmount;
                         actions.animator.SpinDashSingle();
@@ -58,17 +68,26 @@ public class SpinDashState : ActionBase
                     break;
             }
         }
-        if (player.a_input.GetButton("Crouch", InputHandler.ButtonState.Up))
+        if (player.p_input.GetAxis("Roll") < 0.1)
         {
             actions.animator.SpinDashRelease();
             player.Crouching = true;
-            player.rigidBody.velocity = player.transform.forward * SpinDashCharge;
+            player.rigidBody.velocity += player.transform.forward * SpinDashCharge;
             actions.ChangeState(typeof(DefaultState));
+        }
+        if (player.p_input.GetButtonDown("Jump") && spinDashType == DashStyle.Adventure)
+        {
+
+            actions.animator.PlayJumpSound();
+            actions.animator.PlayJumpVoice();
+            if (actions.CheckForState(typeof(JumpState))) actions.ChangeState(typeof(JumpState));
+
         }
     }
     public override void FixedUpdateState()
     {
         base.FixedUpdateState();
-        player.rigidBody.velocity = Vector3.zero;
+        player.rigidBody.velocity = new Vector3(player.rigidBody.velocity.x /1.1f, player.rigidBody.velocity.y, player.rigidBody.velocity.z /1.1f);
+       // player.rigidBody.velocity = Vector3.zero;
     }
 }

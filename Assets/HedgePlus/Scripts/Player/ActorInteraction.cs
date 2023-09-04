@@ -178,7 +178,7 @@ public class ActorInteraction : MonoBehaviour
             {
                 DefaultState curState = PlayerActions.currentState as DefaultState;
                 ///If we are grounded and rolling or have an invincible shield, destroy the enemy. Otherwise, take damage.
-                if (Player.rigidBody.velocity.magnitude >= curState.RollingStartSpeed && Player.Crouching && Player.Grounded ||
+                if (Player.rigidBody.velocity.magnitude >= curState.RollingStartThreshold && Player.Crouching && Player.Grounded ||
                     _health.HasShield && _health.IsInvincible)
                 {
                     pool.SpawnFromPool("HitExplosion", other.transform.position, Quaternion.identity);

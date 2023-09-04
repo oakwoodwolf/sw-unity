@@ -5,7 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerActions))]
 public class HomingState : ActionBase
 {
-    public VolumeTrailRenderer HomingTrail;
 
     [Header("Air Dash")]
     public bool OverrideSpeed;
@@ -39,8 +38,8 @@ public class HomingState : ActionBase
             DashSpeed = player.rigidBody.velocity.magnitude;
         else
             DashSpeed = AirDashSpeed;
-        HomingTrail.emitTime = AirDashDuration;
-        HomingTrail.emit = true;
+        actions.animator.HomingTrail.emitTime = AirDashDuration;
+        actions.animator.HomingTrail.emit = true;
         //actions.defaultState.DidDash = true;
     }
 

@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Rewired;
 [AddComponentMenu("Pinball/Actions/Double Jump")]
 [RequireComponent(typeof(PlayerActions))]
 public class DoubleJumpState : ActionBase
@@ -17,7 +16,7 @@ public class DoubleJumpState : ActionBase
 
     public override void UpdateState()
     {
-        if (player.a_input.GetButton("Jump", InputHandler.ButtonState.Down))
+        if (player.p_input.GetButtonDown("Jump"))
         {
             if (actions.ClosestTarget != null)
             {
