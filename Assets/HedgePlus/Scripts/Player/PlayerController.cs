@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
+using UnityScript.Steps;
+
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 public class PlayerController : MonoBehaviour
@@ -70,6 +72,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1;
         p_input = ReInput.players.GetPlayer(playerID);
         rigidBody = GetComponent<Rigidbody>();
         GroundNormal = Vector3.up;

@@ -9,6 +9,8 @@ public class TitleScreenBehavior : MonoBehaviour
     public int LevelToLoad = 0;
     private void Start()
     {
+
+        Time.timeScale = 1;
         loader = FindObjectOfType<LoadingScreenBehavior>();
     }
     void Update()
