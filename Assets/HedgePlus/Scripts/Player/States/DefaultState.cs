@@ -52,17 +52,17 @@ public class DefaultState : ActionBase
                     if (actions.CheckForState(typeof(JumpState))) actions.ChangeState(typeof(JumpState));
                 }
             }
-            if (player.p_input.GetAxis("Roll") < SpindashStartThreshold && player.p_input.GetAxis("Roll") > RollingStartThreshold)
+            if (((player.p_input.GetAxis("Roll") < SpindashStartThreshold) && player.p_input.GetAxis("Roll") > RollingStartThreshold) || player.p_input.GetButtonDown("RollDigital"))
             {
                 
                 player.Crouching = true;
             }
-            if (player.p_input.GetAxis("Roll") <= RollingStartThreshold)
+            if (player.p_input.GetAxis("Roll") <= RollingStartThreshold && !player.p_input.GetButton("RollDigital"))
             {
                 player.Crouching = false;
             }
 
-                if (player.p_input.GetAxis("Roll") >= SpindashStartThreshold)
+                if (player.p_input.GetAxis("Roll") >= SpindashStartThreshold || player.p_input.GetButtonDown("SpinDash"))
                 {
                     col.height = CrouchHeight;
                     col.center = new Vector3(0, CrouchOffset, 0);
@@ -78,7 +78,7 @@ public class DefaultState : ActionBase
         }
         else
         {
-            if (player.p_input.GetButtonDown("Roll"))
+            if (player.p_input.GetButtonDown("Roll") || player.p_input.GetButtonDown("SpinDash"))
             {
                 if (actions.CheckForState(typeof(StompState)))
                 {

@@ -45,7 +45,6 @@ public class SpinDashState : ActionBase
     public override void UpdateState()
     {
         base.UpdateState();
-        player.p_input.SetVibration(0, 1.0f, 0.5f);
         if (player.InputDir.sqrMagnitude > 0.01f)
         {
             Quaternion b = Quaternion.LookRotation(Vector3.ProjectOnPlane(player.InputDir, player.GroundNormal), player.GroundNormal);
@@ -56,7 +55,7 @@ public class SpinDashState : ActionBase
             switch (spinDashType)
             {
                 case DashStyle.Adventure:
-                    
+                    player.p_input.SetVibration(0, ((SpinDashCharge / MaxCharge) * 0.35f), 0.25f);
                     SpinDashCharge += MaxCharge * (Time.deltaTime / ChargeDuration);
                     break;
                 case DashStyle.Classic:
@@ -68,7 +67,7 @@ public class SpinDashState : ActionBase
                     break;
             }
         }
-        if (player.p_input.GetAxis("Roll") < 0.1)
+        if (player.p_input.GetAxis("Roll") < 0.1 && !player.p_input.GetButton("SpinDash"))
         {
             actions.animator.SpinDashRelease();
             player.Crouching = true;

@@ -54,7 +54,7 @@ public class StompState : ActionBase
         }
         if (player.Grounded)
         {
-            if (canBounce && player.p_input.GetAxis("Roll") > 0.8 && !HasBounced)
+            if (canBounce && (player.p_input.GetAxis("Roll") > 0.8 || player.p_input.GetButton("SpinDash")) && !HasBounced)
             {
                 actions.animator.PlayBounceSound();
                     Bounce(player.GroundNormal);
@@ -90,6 +90,7 @@ public class StompState : ActionBase
         CurrentBounceAmount = Mathf.Clamp(CurrentBounceAmount, BounceUpSpeeds[BounceCount], BounceUpMaxSpeed);
         player.rigidBody.position += player.GroundNormal * player.GroundCheckDistance * 2f;
         Vector3 velocity = player.rigidBody.velocity;
+
         velocity.y = 0f;
         Vector3 vector = Vector3.Lerp(player.GroundNormal, player.InputDir, 0.25f).normalized * (20 * CurrentBounceAmount);
         velocity += vector;
@@ -102,6 +103,8 @@ public class StompState : ActionBase
     }
     public override void UpdateState()
     {
+        actions.UpdateTargets();
+
         if (player.p_input.GetButtonDown("Jump"))
         {
             if (actions.ClosestTarget == null)
@@ -140,7 +143,7 @@ public class StompState : ActionBase
             }
             actions.animator.HomingTrail.emit = false;
         }
-        if (player.p_input.GetButtonDown("Roll"))
+        if (player.p_input.GetButtonDown("Roll") || player.p_input.GetButtonDown("SpinDash"))
         {
             StartStomp();
         }

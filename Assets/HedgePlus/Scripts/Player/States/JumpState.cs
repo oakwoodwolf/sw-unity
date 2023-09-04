@@ -63,7 +63,7 @@ public class JumpState : ActionBase
             }
 
         }
-        if (player.p_input.GetButtonDown("Roll"))
+        if (player.p_input.GetButtonDown("Roll") || player.p_input.GetButtonDown("SpinDash"))
         {
             if (actions.CheckForState(typeof(StompState)))
             {
