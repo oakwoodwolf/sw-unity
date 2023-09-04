@@ -12237,6 +12237,43 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 839704074}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1947428659 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3309609377011861026, guid: be580513b723fb94e8048c87318cebbc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1224422401777979576}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &1947428660 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2931083846045582968, guid: be580513b723fb94e8048c87318cebbc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1224422401777979576}
+  m_PrefabAsset: {fileID: 0}
+--- !u!205 &1947428662
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947428659}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.00045323372, y: 0.5898463, z: -0.19229552}
+  m_Size: 1.1830369
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.1
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1947428660}
+  - screenRelativeHeight: 0.1
+    fadeTransitionWidth: 0
+    renderers: []
+  - screenRelativeHeight: 0.1
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 1
 --- !u!1001 &1959264448
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14711,6 +14748,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2931083846045582968, guid: be580513b723fb94e8048c87318cebbc,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5564579340495114181, guid: be580513b723fb94e8048c87318cebbc,
         type: 3}
       propertyPath: Force
@@ -14898,6 +14940,11 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 49843632}
+    - target: {fileID: 3483190199137424411, guid: 872c381e3e91c374998a8c2172d42a6d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3483190199707425447, guid: 872c381e3e91c374998a8c2172d42a6d,
         type: 3}
       propertyPath: m_LocalPosition.x
