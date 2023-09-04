@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
-using UnityScript.Steps;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
