@@ -10,7 +10,7 @@ public class TitleScreenBehavior : MonoBehaviour
     private void Start()
     {
 
-        Time.timeScale = 1;
+
         loader = FindObjectOfType<LoadingScreenBehavior>();
     }
     void Update()
