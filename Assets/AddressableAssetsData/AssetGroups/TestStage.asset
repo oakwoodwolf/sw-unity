@@ -10,13 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: TestStage
   m_EditorClassIdentifier: 
-  m_GroupName: Default Local Group
+  m_GroupName: TestStage
   m_Data:
     m_SerializedData: []
   m_GUID: 069223f985b9f104b8985be7dc1ecda7
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 4fcebf83d138b534880c99f9c521e405
+    m_Address: TestStageMusic
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 8300000, guid: 4fcebf83d138b534880c99f9c521e405, type: 3}
+    m_TargetAsset: {fileID: 8300000, guid: 4fcebf83d138b534880c99f9c521e405, type: 3}
+  - m_GUID: e7fa231fb78f3df43aaebc325d53baf3
+    m_Address: PlayerSonic
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 8205762953400663395, guid: e7fa231fb78f3df43aaebc325d53baf3,
+      type: 3}
+    m_TargetAsset: {fileID: 8205762953400663395, guid: e7fa231fb78f3df43aaebc325d53baf3,
+      type: 3}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: a4e02c46d5be89f4387a5cab9581e962, type: 2}
   m_SchemaSet:

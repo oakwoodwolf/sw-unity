@@ -1,14 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
+
+
+[System.Serializable]
+public class AssetReferenceAudioClip : AssetReferenceT<AudioClip>
+{
+    public AssetReferenceAudioClip(string path) : base(path) { }
+}
+
 public class StageProgress : MonoBehaviour
 {
     public static StageProgress instance;
+    [SerializeField]
+    private AssetReferenceAudioClip stageMusicReference;
+    [SerializeField]
+    private AssetReferenceGameObject playerAssetReference;
+
+    
     PlayerController PlayerObject;
     PlayerCamera camera;
-    Vector3 InitialPosition;
-    Quaternion InitialRotation;
+    [SerializeField] Vector3 InitialPosition;
+    [SerializeField] Quaternion InitialRotation;
     public Vector3 SpawnPosition { get; set; }
     public Quaternion SpawnRotation { get; set; }
 
@@ -32,14 +47,7 @@ public class StageProgress : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Get the PlayerObject and its initial position and rotation
-        PlayerObject = FindObjectOfType<PlayerController>();
-        camera = FindObjectOfType<PlayerCamera>();
-        InitialPosition = PlayerObject.transform.position;
-        InitialRotation = PlayerObject.transform.rotation;
-        //Set starting spawn position/rotation
-        SpawnPosition = InitialPosition;
-        SpawnRotation = InitialRotation;
+        
         //Get every Object Spawner and Checkpoint
         ObjectSpawners = FindObjectsOfType<Spawner>();
         Checkpoints = FindObjectsOfType<CheckpointActor>();
@@ -51,7 +59,9 @@ public class StageProgress : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        playerAssetReference.InstantiateAsync();
+
+
     }
 
     public void Respawn()
