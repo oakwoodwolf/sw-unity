@@ -1,5 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,6 +15,8 @@ public class LoadingScreenBehavior : MonoBehaviour
     float loadingAmount;
     public LevelData[] Levels;
     public float LoadingDelay = 1f;
+    private static AsyncOperationHandle<SceneInstance> loadScene;
+
 
     private void Awake()
     {
@@ -37,10 +42,10 @@ public class LoadingScreenBehavior : MonoBehaviour
         NameTop.text = Levels[index].NameTop;
         NameBottom.text = Levels[index].NameBottom;
         loadingAnimator.SetBool("Loading", true);
-        StartCoroutine(LoadScene(Levels[index].SceneIndex));
+        StartCoroutine(LoadScene(Levels[index].levelScene));
     }
 
-    IEnumerator LoadScene(int index)
+    IEnumerator LoadScene(AssetReference scene)
     {
         ///To actually have seamless loading as well as loading progress, we will be using an AsyncOperation.
         ///What this does is not only load the scene in the background, but also provide us with its loading
@@ -50,17 +55,37 @@ public class LoadingScreenBehavior : MonoBehaviour
         ///operation's progress, and return null to wait 1 frame before looping.
         ///Then, once the scene is fully loaded, we simply play the loading screen exit animation.
         yield return new WaitForSeconds(LoadingDelay);
-        AsyncOperation loadScene = SceneManager.LoadSceneAsync(index);
-        while (!loadScene.isDone)
+        if (scene.RuntimeKeyIsValid())
         {
-            loadingAmount = loadScene.progress / 0.9f;
+            // Load the scene asynchronously
+            loadScene = Addressables.LoadSceneAsync(scene, activateOnLoad: true);
+            while (!loadScene.IsDone)
+            {
+
+                loadingAmount = loadScene.PercentComplete / 0.9f;
+                yield return null;
+            }
+            
+            if (loadScene.IsDone)
+            {
+                loadingAnimator.SetBool("Loading", false);
+                
+            }
+            if (loadScene.Status == AsyncOperationStatus.Succeeded)
+            {
+                Debug.Log("Addressables initialized successfully.");
+            }
+            else if (loadScene.Status == AsyncOperationStatus.Failed)
+            {
+                Debug.LogError("Addressables initialization failed: " + loadScene.OperationException);
+            }
+        }
+        else
+        {
+            Debug.LogError("AssetReference is not valid. " + scene);
             yield return null;
         }
-
-        if (loadScene.isDone)
-        {
-            loadingAnimator.SetBool("Loading", false);
-        }
+        
 
 
     }

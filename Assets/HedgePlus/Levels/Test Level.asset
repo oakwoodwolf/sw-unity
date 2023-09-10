@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: Test Level
   m_EditorClassIdentifier: 
   SceneIndex: 2
+  levelScene:
+    m_AssetGUID: 99c9720ab356a0642a771bea13969a05
+    m_SubObjectName: 
   NameTop: TEST
   NameBottom: ZONE
